@@ -86,7 +86,7 @@ EOF
 	    e*_172.31.* )
 		ip a d $addr dev $intf
 		ip a a $addr dev $intf scope link
-		ip r a default via ${addr%.*}.100 src ${addr%/*} || true
+		ip r a default via ${addr%.*}.100 || true
 		;;
 	esac
     done
