@@ -94,11 +94,14 @@ export | grep -i ssh
 
 openshift-install create ignition-configs
 
+wget https://raw.githubusercontent.com/projectcalico/bird/dual-tor/openshift-dual-tor/src/dual-tor.json
+wget https://raw.githubusercontent.com/projectcalico/bird/dual-tor/openshift-dual-tor/src/dual-tor-standalone.json
+
 # Add calico-dual-tor service into bootstrap Ignition file.
 # Note this assumes that there are already _some_ systemd units
 # specified in the file.
 cat bootstrap.ign | jq . > bootstrap.json
-cat ~/src/dual-tor.json | sed -i '/^    "units": / r /dev/stdin' bootstrap.json
+cat dual-tor.json | sed -i '/^    "units": / r /dev/stdin' bootstrap.json
 mv bootstrap.ign bootstrap.ign.dist
 mv bootstrap.json bootstrap.ign
 
@@ -106,7 +109,7 @@ mv bootstrap.json bootstrap.ign
 # Note this assumes that there are _no_ system units yet specified
 # in the file.
 cat master.ign | jq . > master.json
-cat ~/src/dual-tor-standalone.json | sed -i '/^  "systemd": {}/ r /dev/stdin' master.json
+cat dual-tor-standalone.json | sed -i '/^  "systemd": {}/ r /dev/stdin' master.json
 sed -i '/^  "systemd": {}/ d' master.json
 mv master.ign master.ign.dist
 mv master.json master.ign
