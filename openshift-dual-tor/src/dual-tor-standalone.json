@@ -1,0 +1,9 @@
+  "systemd": {
+    "units": [
+      {
+"contents": "[Service]\nExecStart=/bin/podman run --rm --privileged --net=host --name=bird docker.io/calico/bird:v0.3.3-169-g29344a32-amd64 dual-tor\n\n[Install]\nWantedBy=multi-user.target\n",
+"enabled": true,
+"name": "calico-dual-tor.service"
+      }
+    ]
+  }
