@@ -75,6 +75,9 @@ protocol bgp tor2 from tors {
 }
 EOF
 
+    # Listen on port 8179 so as not to clash with calico-node.
+    sed -i '/router id/a listen bgp port 8179;' /etc/bird.conf
+
     # Enable ECMP programming into kernel.
     sed -i '/protocol kernel {/a merge paths on;' /etc/bird.conf
 
