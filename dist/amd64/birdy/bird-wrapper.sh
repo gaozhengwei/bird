@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 ROUTER_ID=`ip -4 -o a | while read num intf inet addr; do
     case $intf in
