@@ -50,6 +50,13 @@ if [ "$1" = dual-tor ]; then
 
     # Generate BIRD peering config.
     cat >/etc/bird/peers.conf <<EOF
+protocol static {
+  route ${loop_addr}/32 blackhole;
+}
+filter except_loop {
+  if ( net ~ [ ${loop_addr}/32 ] ) then reject;
+  accept;
+}
 filter calico_dual_tor {
   if ( net ~ [ 192.168.0.0/16+] ) then accept;
   if ( net ~ [ 172.31.0.0/16+] ) then accept;
