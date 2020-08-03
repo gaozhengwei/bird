@@ -98,7 +98,7 @@ EOF
 	    e*_172.31.* )
 		ip a d $addr dev $intf
 		ip a a $addr dev $intf scope link
-		if [ $addr = ${ip1}.${ip2}.$((rack_base + 1)).${ip4} ]; then
+		if [ $addr = ${ip1}.${ip2}.$((rack_base + 1)).${ip4}/24 ]; then
 		    brctl addif brdt $intf
 		    ip r a default via ${addr%.*}.100 dev brdt
 		fi
