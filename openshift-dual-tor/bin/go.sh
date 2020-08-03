@@ -121,3 +121,8 @@ cd /var/www/html/ignition
 chmod 644 *
 cd ~/ocp4
 ls -al /var/www/html/ignition/
+
+cat /var/www/html/ignition/bootstrap.ign | jq .systemd
+cat /var/www/html/ignition/master.ign | jq .systemd
+
+rm -f ~/.ssh/known_hosts
