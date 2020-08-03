@@ -1,6 +1,8 @@
 FROM alpine:edge
 MAINTAINER Neil Jerram <neil@projectcalico.org>
 
+RUN apk add --no-cache bridge-utils
+
 # Copy our binaries
 COPY * /
 

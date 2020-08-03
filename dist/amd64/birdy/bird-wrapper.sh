@@ -35,7 +35,9 @@ if [ "$1" = dual-tor ]; then
     rack_base=$((ip3 - (ip3 % 10)))
     loop_addr=${ip1}.${ip2}.${rack_base}.${ip4}
     echo "Stable (loopback) address is $loop_addr"
-    ip a a ${loop_addr}/32 dev lo
+    brctl addbr brdt
+    ip l set dev brdt up
+    ip a a ${loop_addr}/23 dev brdt
 
     # Calculate the ToR addresses.
     tor1_addr=${ip1}.${ip2}.$((rack_base + 1)).100
@@ -89,7 +91,10 @@ EOF
 	    e*_172.31.* )
 		ip a d $addr dev $intf
 		ip a a $addr dev $intf scope link
-		ip r a default via ${addr%.*}.100 || true
+		if [ $addr = ${ip1}.${ip2}.$((rack_base + 1)).${ip4} ]; then
+		    brctl addif brdt $intf
+		    ip r a default via ${addr%.*}.100 dev brdt
+		fi
 		;;
 	esac
     done
